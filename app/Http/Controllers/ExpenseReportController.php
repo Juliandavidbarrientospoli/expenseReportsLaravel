@@ -38,17 +38,18 @@ class ExpenseReportController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(ExpenseReport $expenseReport)
     {
-        //
-    }
-
+        return view('expenseReport.show',[
+         'report' => $expenseReport
+        ]);
+     }
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-       $report = ExpenseReport::find($id);
+        $report = ExpenseReport::findOrFail($id);
        return view('expenseReport.edit',[
         'report' => $report
        ]);
