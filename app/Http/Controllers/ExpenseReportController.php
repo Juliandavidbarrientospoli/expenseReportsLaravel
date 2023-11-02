@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\ExpenseReport;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreExpenseReports;
 
 class ExpenseReportController extends Controller
 {
@@ -23,10 +24,11 @@ class ExpenseReportController extends Controller
     }
 
     /**
+     * StoreBlogPost  $request
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+    public function store(StoreExpenseReports $request)
+    {   
         $report = new ExpenseReport();
         $report->title = $request->get('title');
         $report->save();
@@ -55,25 +57,31 @@ class ExpenseReportController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreExpenseReports $request, string $id)
     {   
-   
-    $report = ExpenseReport::find($id);
-
-    if (!$report) {
-        return response()->json(['message' => 'Report not found'], 404);
-    }
+    $report = ExpenseReport::findOrFail($id);
     $report->title = $request->get('title');
     $report->save();
     return redirect('/expense_reports');
 
     }
-
+ /**
+     * Confirrm delete the specified resource from storage.
+     */
+    public function confirmDelete(string $id)
+    {
+        $report = ExpenseReport::findOrFail($id);
+        return view('expenseReport.confirmDelete',[
+         'report' => $report
+        ]);
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $report = ExpenseReport::findOrFail($id);
+        $report->delete();
+        return redirect('/expense_reports');
     }
 }
