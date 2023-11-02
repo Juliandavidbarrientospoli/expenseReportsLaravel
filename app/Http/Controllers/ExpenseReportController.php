@@ -19,7 +19,7 @@ class ExpenseReportController extends Controller
      */
     public function create()
     {
-        //
+        return view('expenseReport.create');
     }
 
     /**
@@ -27,7 +27,10 @@ class ExpenseReportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $report = new ExpenseReport();
+        $report->title = $request->get('title');
+        $report->save();
+        return redirect('/expense_reports');
     }
 
     /**
@@ -43,15 +46,27 @@ class ExpenseReportController extends Controller
      */
     public function edit(string $id)
     {
-        //
+       $report = ExpenseReport::find($id);
+       return view('expenseReport.edit',[
+        'report' => $report
+       ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        //
+    {   
+   
+    $report = ExpenseReport::find($id);
+
+    if (!$report) {
+        return response()->json(['message' => 'Report not found'], 404);
+    }
+    $report->title = $request->get('title');
+    $report->save();
+    return redirect('/expense_reports');
+
     }
 
     /**
