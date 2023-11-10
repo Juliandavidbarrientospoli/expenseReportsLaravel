@@ -47,7 +47,7 @@ class ExpenseReportController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(int $id)
     {
         $report = ExpenseReport::findOrFail($id);
        return view('expenseReport.edit',[
@@ -58,7 +58,7 @@ class ExpenseReportController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreExpenseReports $request, string $id)
+    public function update(StoreExpenseReports $request, int $id)
     {   
     $report = ExpenseReport::findOrFail($id);
     $report->title = $request->get('title');
@@ -69,17 +69,37 @@ class ExpenseReportController extends Controller
  /**
      * Confirrm delete the specified resource from storage.
      */
-    public function confirmDelete(string $id)
+    public function confirmDelete(int $id)
     {
         $report = ExpenseReport::findOrFail($id);
         return view('expenseReport.confirmDelete',[
          'report' => $report
         ]);
     }
+
+     /**
+     * Confirrm send email to client 
+     */
+    public function confirmSendMail(int $id)
+    {
+        $report = ExpenseReport::findOrFail($id);
+        return view('expenseReport.confirmSendMail',[
+         'report' => $report
+        ]);
+    }
+
+       /**
+     * Confirrm send email to client 
+     */
+    public function sendMail(int $id)
+    {
+        $report = ExpenseReport::findOrFail($id);
+        return $report;
+    }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
         $report = ExpenseReport::findOrFail($id);
         $report->delete();

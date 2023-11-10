@@ -39,7 +39,7 @@ public function messages()
 {
     return [
         'title.required' => 'A title is required',
-        'title.regex'  => 'The format is invalid',
+        'body.required'  => 'A message is required',
     ];
 }
 
